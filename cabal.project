@@ -1,26 +1,27 @@
 packages:
     api
-  , sdk
-  , otlp
-  , examples/hspec
-  , examples/yesod-minimal
-  , exporters/handle
-  , exporters/in-memory
-  , exporters/otlp
-  , propagators/datadog
-  , propagators/w3c
-  , propagators/b3
-  , instrumentation/conduit
-  , instrumentation/cloudflare
-  , instrumentation/hspec
-  , instrumentation/http-client
-  , instrumentation/persistent
-  , instrumentation/persistent-mysql
+  -- , sdk
+  -- , otlp
+  -- , examples/hspec
+  -- , examples/yesod-minimal
+  -- , exporters/handle
+  -- , exporters/in-memory
+  -- , exporters/otlp
+  -- , propagators/datadog
+  -- , propagators/w3c
+  -- , propagators/b3
+  -- , instrumentation/conduit
+  -- , instrumentation/cloudflare
+  -- , instrumentation/hspec
+  -- , instrumentation/http-client
+  -- , instrumentation/persistent
+  -- , instrumentation/persistent-mysql
   , instrumentation/postgresql-simple
-  , instrumentation/yesod
-  , instrumentation/wai
-  , utils/exceptions
-  , vendors/honeycomb
+  -- , instrumentation/yesod
+  -- ,
+  -- instrumentation/wai
+  -- , utils/exceptions
+  -- , vendors/honeycomb
 
 allow-newer:
     http-api-data:base

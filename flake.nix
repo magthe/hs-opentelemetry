@@ -28,53 +28,33 @@
     ...
   }: let
     inherit (nixpkgs) lib;
-    inherit
-      (import ./nix/matrix.nix)
-      supportedSystems
-      ;
+    inherit (import ./nix/matrix.nix) supportedSystems;
     ignoreGeneratedFiles = attrs:
       {
-        excludes =
-          attrs.excludes
-          or []
-          ++ [
-            "^otlp/src/"
-            ".*\\.cabal$"
-          ];
+        excludes = attrs.excludes or [] ++ ["^otlp/src/" ".*\\.cabal$"];
       }
       // attrs;
     pre-commit-hooks = {
       # General hooks
       end-of-file-fixer = ignoreGeneratedFiles {
         enable = true;
-        excludes = [
-          ".*\\.l?hs$"
-          ".*\\.proto$"
-        ];
+        excludes = [".*\\.l?hs$" ".*\\.proto$"];
       };
       # Nix hooks
       alejandra.enable = true;
       deadnix.enable = true;
       # Haskell hooks
-      fourmolu = ignoreGeneratedFiles {
-        enable = true;
-      };
+      fourmolu = ignoreGeneratedFiles {enable = true;};
       hpack.enable = true;
     };
   in
     {
-      lib = {
-        haskellOverlay = import ./nix/haskell-overlay.nix;
-      };
+      lib = {haskellOverlay = import ./nix/haskell-overlay.nix;};
     }
     // flake-utils.lib.eachSystem supportedSystems (system: let
       pkgs = import nixpkgs {inherit system;};
-      haskellPackageUtils = import ./nix/haskell-packages.nix {
-        inherit
-          lib
-          pkgs
-          ;
-      };
+      haskellPackageUtils =
+        import ./nix/haskell-packages.nix {inherit lib pkgs;};
       inherit (haskellPackageUtils) extendedPackageSetByGHCVersions;
 
       mkShellForGHC = ghcVersion: let
@@ -96,10 +76,11 @@
 
               languages.haskell = {
                 enable = true;
-                package = myHaskellPackages.ghc.withHoogle (
-                  hpkgs:
-                    lib.attrVals (builtins.attrNames (haskellPackageUtils.localDevPackageDepsAsAttrSet myHaskellPackages)) hpkgs
-                );
+                package = myHaskellPackages.ghc.withHoogle (hpkgs:
+                  lib.attrVals (builtins.attrNames
+                    (haskellPackageUtils.localDevPackageDepsAsAttrSet
+                      myHaskellPackages))
+                  hpkgs);
               };
 
               pre-commit.hooks = pre-commit-hooks;
